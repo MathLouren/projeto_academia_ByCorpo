@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fale Conosco - By Corpo Academia</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      rel="icon"
+      href="./assets/logo_rounded_icon_new.png"
+      type="image/png"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="container_desktop">
+        <a href="index.html">
+          <img
+            src="./assets/LOGO-removebg-preview.png"
+            alt="Logo da Academia By Corpo"
+            width="160"
+          />
+        </a>
+        <button
+          class="menu-toggle"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+        >
+          &#9776;
+        </button>
+      </div>
+      <nav>
+        <ul>
+          <button class="close-menu" aria-label="Fechar menu">✖</button>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="sobre.html">Sobre</a></li>
+          <li><a href="galeria.html">Galeria</a></li>
+          <li><a href="fale-conosco.html">Fale Conosco</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="fale_conosco" class="fale_conosco_content">
+        <h2 class="page-title">Fale Conosco</h2>
+        <p>
+          Na <strong>By Corpo Academia</strong>, estamos sempre prontos para
+          ouvir você! Se tem dúvidas sobre nossos serviços, horários de
+          funcionamento ou deseja saber mais sobre como podemos ajudar a atingir
+          suas metas de saúde e bem-estar, entre em contato conosco.
+        </p>
+        <form id="form-contato" class="form-contato" method="POST">
+          <div class="form-group">
+            <label for="nome">Nome Completo:</label>
+            <input
+              type="text"
+              id="nome"
+              name="nome"
+              placeholder="Ex: João Silva"
+              pattern="[a-zA-ZÀ-ÿ\s]+"
+              maxlength="100"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-mail:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Seu e-mail"
+              maxlength="100"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="telefone">Telefone:</label>
+            <input
+              type="tel"
+              id="telefone"
+              name="telefone"
+              placeholder="(XX) XXXXX-XXXX"
+              maxlength="15"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="mensagem">Mensagem:</label>
+            <textarea
+              id="mensagem"
+              name="mensagem"
+              rows="5"
+              placeholder="Escreva sua mensagem aqui..."
+              maxlength="500"
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn-enviar">Enviar Mensagem</button>
+        </form>
+      </section>
+    </main>
+    <div id="mensagem_status"></div>
+
+    <footer id="rodape">
+      <div class="footer-content">
+        <div class="redes-sociais">
+          <h3>Siga-nos nas redes sociais</h3>
+          <div class="redes-sociais-icon">
+            <a href="https://www.facebook.com/academiabycorpo" target="_blank"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="https://www.instagram.com/academiabycorpo/" target="_blank"
+              ><i class="fab fa-instagram"></i
+            ></a>
+          </div>
+        </div>
+
+        <div class="contato" id="contato">
+          <h3>Contato</h3>
+          <p>
+            <strong>Endereço da Academia:</strong> Tv. Ana Morais, 76 - Covanca,
+            São Gonçalo - RJ, 24425-480, Brasil
+          </p>
+          <p>
+            <strong>Telefone:</strong>
+            <a href="tel:+552126241287">(21) 2624-1287</a> |
+            <strong>Email:</strong>
+            <a href="mailto:academiabycorpo@hotmail.com"
+              >academiabycorpo@hotmail.com</a
+            >
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Academia By Corpo. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document
+          .getElementById("form-contato")
+          .addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const nome = document.getElementById("nome").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const telefone = document.getElementById("telefone").value.trim();
+            const mensagem = document.getElementById("mensagem").value.trim();
+
+            const dados = { nome, email, telefone, mensagem };
+            const mensagemDiv = document.getElementById("mensagem_status");
+
+            try {
+              await fetch(
+                "https://script.google.com/macros/s/AKfycbzRqARH2dsjbwkZKJYns-6Ia3pP7qC8ZBvBMSB1OwpSkOcnrICNuNQne0qV5vcWdN7O7Q/exec",
+                {
+                  method: "POST",
+                  mode: "no-cors",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(dados),
+                }
+              );
+
+              mensagemDiv.textContent = "Dados enviados com sucesso!";
+              mensagemDiv.className = "mensagem-sucesso mensagem-mostrar";
+
+              document.getElementById("form-contato").reset();
+
+              setTimeout(() => {
+                mensagemDiv.classList.remove("mensagem-mostrar");
+              }, 3000);
+            } catch (error) {
+              console.error("Erro ao enviar os dados:", error);
+              mensagemDiv.textContent =
+                "Houve um erro ao enviar as informações. Por favor, tente novamente mais tarde.";
+              mensagemDiv.className = "mensagem-erro mensagem-mostrar";
+
+              setTimeout(() => {
+                mensagemDiv.classList.remove("mensagem-mostrar");
+              }, 3000);
+            }
+          });
+
+        document
+          .getElementById("telefone")
+          .addEventListener("input", (event) => {
+            let input = event.target.value.replace(/\D/g, "");
+
+            if (input.length > 11) input = input.slice(0, 11);
+
+            if (input.length > 10) {
+              input = input.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+            } else if (input.length > 6) {
+              input = input.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2-$3");
+            } else if (input.length > 2) {
+              input = input.replace(/(\d{2})(\d{0,5})/, "($1) $2");
+            } else {
+              input = input.replace(/(\d{0,2})/, "($1");
+            }
+
+            event.target.value = input;
+          });
+      });
+    </script>
+  </body>
+</html>
